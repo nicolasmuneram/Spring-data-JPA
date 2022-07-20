@@ -1,10 +1,13 @@
 package com.demodb.springdatajpatutorial.repository;
 
+import com.demodb.springdatajpatutorial.entity.Guardian;
 import com.demodb.springdatajpatutorial.entity.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.security.Guard;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,11 +23,30 @@ class StudentRepositoryTest {
                 .emailId("nicolas@gmail.com")
                 .firstName("Nicolas")
                 .lastName("Munera")
-                .guardianEmail("paic@gmail.com")
-                .guardianName("pauli")
-                .guardianMobile("123123")
+                //.guardianEmail("paic@gmail.com")
+                //.guardianName("pauli")
+                //.guardianMobile("123123")
                 .build();
         studentRepository.save(student);
     }
-    
+
+    @Test
+    public void saveStudentWithGuardian(){
+
+        Guardian guardian = Guardian.builder()
+                .name("prueba2")
+                .email("prueba@prueba.com")
+                .mobile("1123434")
+                .build();
+
+
+        Student student = Student.builder()
+                .emailId("prueba@gmail.com")
+                .firstName("prueba")
+                .lastName("prueba")
+                .guardian(guardian)
+                .build();
+        studentRepository.save(student);
+    }
+
 }
