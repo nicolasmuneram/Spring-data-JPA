@@ -2,10 +2,7 @@ package com.demodb.springdatajpatutorial.repository;
 
 import com.demodb.springdatajpatutorial.entity.Guardian;
 import com.demodb.springdatajpatutorial.entity.Student;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,13 +13,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class StudentRepositoryTest {
 
     @Autowired
     private StudentRepository studentRepository;
 
-    @BeforeAll
+    @BeforeEach
     void init() {
 
         Guardian guardian2 = Guardian.builder()
@@ -55,6 +51,10 @@ class StudentRepositoryTest {
         studentRepository.save(student2);
     }
 
+    @AfterEach
+    void end() {
+        studentRepository.deleteAll();
+    }
 
     @Test
     public void printStudentByFirstName(){
@@ -77,6 +77,12 @@ class StudentRepositoryTest {
     @Test
     public void printGetStudentByEmailAddress(){
         Student students = studentRepository.getStudentByEmailAddress("prueba@gmail.com");
+        System.out.println("students = " + students);
+    }
+
+    @Test
+    public void printGetStudentByEmailAddressNativeNamedParam(){
+        Student students = studentRepository.getStudentByEmailAddressNativeNamedParam("prueba@gmail.com");
         System.out.println("students = " + students);
     }
 
